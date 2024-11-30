@@ -175,3 +175,7 @@ dist
 
 # Finder (MacOS) folder config
 .DS_Store
+
+#test folder
+
+test/
