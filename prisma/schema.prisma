@@ -9,6 +9,63 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+
+model Pengguna {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  nama        String
+  email       String   @unique
+  kataSandi   String
+  peran       String   // Contoh: "admin", "staf"
+  dibuatPada  DateTime @default(now())
+  diperbaruiPada DateTime @updatedAt
+}
+
+model Anggota {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  nama        String
+  email       String   @unique // Email untuk akun anggota
+  kataSandi   String            // Kata sandi untuk login
+  noTelepon   String
+  alamat      String
+  transaksi   Transaksi[]
+  dibuatPada  DateTime @default(now())
+  diperbaruiPada DateTime @updatedAt
+}
+
+model KategoriSampah {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  nama        String
+  deskripsi   String?
+  itemSampah  ItemSampah[]
+}
+
+model ItemSampah {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  nama            String
+  hargaPerKg      Float           // Harga per kg
+  kategoriSampah  KategoriSampah? @relation(fields: [kategoriSampahId], references: [id])
+  kategoriSampahId String?        @db.ObjectId
+  itemTransaksi   ItemTransaksi[] // Tambahkan relasi ke ItemTransaksi
+}
+
+model Transaksi {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  anggota         Anggota?        @relation(fields: [anggotaId], references: [id])
+  anggotaId       String?         @db.ObjectId
+  tanggalTransaksi DateTime       @default(now())
+  itemTransaksi   ItemTransaksi[]
+}
+
+model ItemTransaksi {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  transaksi       Transaksi?      @relation(fields: [transaksiId], references: [id])
+  transaksiId     String?         @db.ObjectId
+  itemSampah      ItemSampah?     @relation(fields: [itemSampahId], references: [id])
+  itemSampahId    String?         @db.ObjectId
+  kuantitas       Float           // Jumlah dalam kg
+  totalHarga      Float           // Harga total
 }
