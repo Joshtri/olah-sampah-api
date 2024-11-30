@@ -1,13 +1,13 @@
 import express from 'express';
 import { ItemSampahController } from '../controllers/ItemSampahController.js';
 
-const router = express.Router();
+const itemSampahRoute = express.Router();
 const controller = new ItemSampahController();
 
 // Mendapatkan semua item sampah
-router.get('/', controller.getAll.bind(controller));
+itemSampahRoute.get('/', controller.getAll.bind(controller));
 
 // Membuat item sampah baru
-router.post('/', controller.create.bind(controller));
+itemSampahRoute.post('/', controller.create.bind(controller));
 
-export default router;
+export default itemSampahRoute;
