@@ -13,22 +13,47 @@ import itemSampahRoute from './routes/ItemSampahRoute.js';
 // Konfigurasi environment variables
 config();
 
+// Pastikan PORT telah dimuat dengan benar
+console.log('PORT:', process.env.PORT);
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json()); // Untuk parsing JSON
 app.use(express.urlencoded({ extended: true })); // Untuk parsing data URL-encoded
-app.use(cors()); // Menangani CORS
-app.use(morgan('dev')); // Logging HTTP requests
+
+// CORS (pastikan mengizinkan origin yang aman)
+app.use(cors({
+  origin: '*', // Tentukan origin yang diperbolehkan, misalnya 'http://localhost:3000'
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  credentials: true, // Allow credentials (cookies, HTTP authentication)
+}));
+
+// Logging HTTP requests hanya di development environment
+// if (process.env.NODE_ENV === 'development') {
+//   app.use(morgan('dev')); // Logging untuk debugging di environment development
+// }
 
 // Routing utama
-app.use('/api/v1', penggunaRoute,anggotaRoute, transaksiRoute, kategoriSampahRoute, itemSampahRoute);
-// app.use('/api/v1', anggotaRoute);
+app.use('/api/v1', penggunaRoute);
+app.use('/api/v1', anggotaRoute);
+app.use('/api/v1', transaksiRoute);
+app.use('/api/v1', kategoriSampahRoute);
+app.use('/api/v1', itemSampahRoute);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack); // Logging error ke console
+
+  // Handle specific error types
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({
+      status: 'error',
+      message: err.message,
+    });
+  }
+
   res.status(err.status || 500).json({
     status: 'error',
     message: err.message || 'Terjadi kesalahan pada server',

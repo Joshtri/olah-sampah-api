@@ -13,7 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Pengguna {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   nama        String
@@ -25,14 +24,14 @@ model Pengguna {
 }
 
 model Anggota {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   nama        String
-  email       String   @unique // Email untuk akun anggota
-  kataSandi   String            // Kata sandi untuk login
+  email       String     @unique // Email untuk akun anggota
+  kataSandi   String     // Kata sandi untuk login
   noTelepon   String
   alamat      String
-  transaksi   Transaksi[]
-  dibuatPada  DateTime @default(now())
+  transaksi   Transaksi[] // Relasi ke Transaksi
+  dibuatPada  DateTime   @default(now())
   diperbaruiPada DateTime @updatedAt
 }
 
@@ -40,7 +39,7 @@ model KategoriSampah {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   nama        String
   deskripsi   String?
-  itemSampah  ItemSampah[]
+  itemSampah  ItemSampah[] // Relasi ke ItemSampah
 }
 
 model ItemSampah {
@@ -48,24 +47,24 @@ model ItemSampah {
   nama            String
   hargaPerKg      Float           // Harga per kg
   kategoriSampah  KategoriSampah? @relation(fields: [kategoriSampahId], references: [id])
-  kategoriSampahId String?        @db.ObjectId
-  itemTransaksi   ItemTransaksi[] // Tambahkan relasi ke ItemTransaksi
+  kategoriSampahId String?        @db.ObjectId // ID relasi ke KategoriSampah
+  itemTransaksi   ItemTransaksi[] // Relasi ke ItemTransaksi
 }
 
 model Transaksi {
   id              String          @id @default(auto()) @map("_id") @db.ObjectId
   anggota         Anggota?        @relation(fields: [anggotaId], references: [id])
-  anggotaId       String?         @db.ObjectId
+  anggotaId       String?         @db.ObjectId  // ID relasi ke Anggota (ObjectId)
   tanggalTransaksi DateTime       @default(now())
-  itemTransaksi   ItemTransaksi[]
+  itemTransaksi   ItemTransaksi[] // Relasi ke ItemTransaksi
 }
 
 model ItemTransaksi {
   id              String          @id @default(auto()) @map("_id") @db.ObjectId
   transaksi       Transaksi?      @relation(fields: [transaksiId], references: [id])
-  transaksiId     String?         @db.ObjectId
+  transaksiId     String?         @db.ObjectId // ID relasi ke Transaksi
   itemSampah      ItemSampah?     @relation(fields: [itemSampahId], references: [id])
-  itemSampahId    String?         @db.ObjectId
+  itemSampahId    String?         @db.ObjectId // ID relasi ke ItemSampah
   kuantitas       Float           // Jumlah dalam kg
   totalHarga      Float           // Harga total
 }

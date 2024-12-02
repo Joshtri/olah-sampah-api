@@ -5,9 +5,9 @@ const kategoriSampahRoute = express.Router();
 const controller = new KategoriSampahController();
 
 // Mendapatkan semua kategori sampah
-kategoriSampahRoute.get('/', controller.getAll.bind(controller));
+kategoriSampahRoute.get('/sampah/kategori', controller.getAll.bind(controller));
 
 // Membuat kategori sampah baru
-kategoriSampahRoute.post('/', controller.create.bind(controller));
+kategoriSampahRoute.post('/sampah/kategori', controller.create.bind(controller));
 
 export default kategoriSampahRoute;

@@ -1,5 +1,5 @@
 import { KategoriSampahRepository } from '../repositories/KategoriSampahRepository.js';
-import { KategoriSampahValidation } from '../validations/KategoriSampahValidation.js';
+import { ObjectId } from 'mongodb'; // Impor ObjectId untuk validasi dan konversi
 
 export class KategoriSampahService {
   constructor() {
@@ -10,22 +10,19 @@ export class KategoriSampahService {
     return await this.repository.getAll();
   }
 
-  async getKategoriSampahById(id) {
-    return await this.repository.getById(id);
+  // Mendapatkan kategori sampah berdasarkan ID
+  async getById(id) {
+    // Pastikan ID yang diterima adalah valid
+    if (!ObjectId.isValid(id)) {
+      throw new Error("ID tidak valid");
+    }
+
+    // Menggunakan ObjectId untuk pencarian di MongoDB
+    return await this.repository.getById(new ObjectId(id));
   }
 
+  // Membuat kategori sampah baru
   async createKategoriSampah(data) {
-    // Validasi input
-    KategoriSampahValidation.validateCreate(data);
     return await this.repository.create(data);
-  }
-
-  async updateKategoriSampah(id, data) {
-    KategoriSampahValidation.validateCreate(data);
-    return await this.repository.update(id, data);
-  }
-
-  async deleteKategoriSampah(id) {
-    return await this.repository.delete(id);
   }
 }

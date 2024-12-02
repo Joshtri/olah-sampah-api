@@ -1,4 +1,5 @@
 import { AnggotaRepository } from '../repositories/AnggotaRepository.js';
+import bcrypt from 'bcrypt';
 
 export class AnggotaService {
   constructor() {
@@ -9,21 +10,26 @@ export class AnggotaService {
     return await this.anggotaRepository.getAll();
   }
 
+  // Get by email
+  async getByEmail(email) {
+    try {
+      return await this.anggotaRepository.getByEmail(email);
+    } catch (error) {
+      throw new Error('Error fetching user by email');
+    }
+  }
+
   // Fungsi untuk sign-up anggota
   async signUp(anggotaData) {
-    // Cek jika email sudah terdaftar
-    const existingAnggota = await this.anggotaRepository.getByEmail(anggotaData.email);
-    if (existingAnggota) {
-      throw new Error('Email sudah terdaftar');
-    }
-
-    // Hash kata sandi
+    // Hash password
     const hashedPassword = await bcrypt.hash(anggotaData.kataSandi, 10);
 
-    // Buat anggota baru dengan kata sandi yang di-hash
+    // Hapus confirmPassword sebelum menyimpan anggota
+    const { confirmPassword, ...anggotaDataWithoutConfirmPassword } = anggotaData;
+
     const newAnggota = await this.anggotaRepository.create({
-      ...anggotaData,
-      kataSandi: hashedPassword,
+      ...anggotaDataWithoutConfirmPassword,
+      kataSandi: hashedPassword, // Simpan password yang sudah di-hash
     });
 
     return newAnggota;
