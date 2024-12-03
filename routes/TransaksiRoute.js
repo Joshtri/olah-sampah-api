@@ -17,6 +17,11 @@ transaksiRoute.post('/transaksi', controller.create.bind(controller));
 // Define the route for deleting a transaction
 transaksiRoute.delete('/transaksi/:id', controller.deleteTransaksi.bind(controller));
 
+
+// Route untuk membuat transaksi berdasarkan userId
+transaksiRoute.post('/transaksi/:userId/create', controller.createTransaksiByUserId.bind(controller));
+
+
 // Get transaksi by userId
 transaksiRoute.get('/transaksi/user/:userId', controller.getTransaksiByUserId.bind(controller));
 
