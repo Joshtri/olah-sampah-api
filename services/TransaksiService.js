@@ -45,4 +45,14 @@ export class TransaksiService {
   async getTransaksiById(id) {
     return await this.transaksiRepository.getTransaksiById(id);
   }
+
+   // Service method for deleting a transaction
+   async deleteTransaksi(id) {
+    try {
+      return await this.transaksiRepository.deleteTransaksiById(id);
+    } catch (error) {
+      console.error('Service error:', error);
+      throw new Error('Failed to delete transaksi');
+    }
+  }
 }

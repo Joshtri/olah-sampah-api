@@ -72,4 +72,17 @@ export class TransaksiRepository {
       throw new Error('Failed to fetch transaksi by ID');
     }
   }
+
+   // Method untuk menghapus transaksi berdasarkan ID
+  async deleteTransaksiById(id) {
+    try {
+      const transaksi = await prisma.transaksi.delete({
+        where: { id: id },
+      });
+      return transaksi;
+    } catch (error) {
+      console.error('Error deleting transaksi:', error);
+      throw new Error('Error deleting transaksi');
+    }
+  }
 }

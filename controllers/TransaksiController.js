@@ -74,4 +74,23 @@ export class TransaksiController {
       });
     }
   }
+
+    // Controller method to delete a transaction
+  async deleteTransaksi(req, res) {
+    const { id } = req.params; // Extracting the ID from request params
+    try {
+      const deletedTransaksi = await this.transaksiService.deleteTransaksi(id);
+      return res.status(200).json({
+        status: 'success',
+        message: 'Transaksi deleted successfully',
+        data: deletedTransaksi,
+      });
+    } catch (error) {
+      console.error('Controller error:', error);
+      return res.status(500).json({
+        status: 'error',
+        message: 'Failed to delete transaksi',
+      });
+    }
+  }
 }
