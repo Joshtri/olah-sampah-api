@@ -73,6 +73,26 @@ export class TransaksiRepository {
     }
   }
 
+    // Method untuk membuat transaksi oleh user (anggota)
+  async createTransaksiByUserId(userId, data) {
+    try {
+      // Membuat transaksi untuk user dengan anggotaId yang sudah ada
+      const newTransaksi = await prisma.transaksi.create({
+        data: {
+          anggotaId: userId,  // Menyertakan ID user yang login
+          totalTransaksi: data.totalTransaksi,
+          itemTransaksi: {
+            create: data.itemTransaksi, // Menyertakan itemTransaksi yang diterima
+          },
+        },
+      });
+      return newTransaksi;
+    } catch (error) {
+      console.error('Error creating transaksi by user ID:', error);
+      throw new Error('Error creating transaksi');
+    }
+  }
+
    // Method untuk menghapus transaksi berdasarkan ID
   async deleteTransaksiById(id) {
     try {
