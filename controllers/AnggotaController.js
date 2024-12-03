@@ -134,9 +134,12 @@ export class AnggotaController {
       if (!anggota) {
         return res.status(404).json({ error: 'User not found' });
       }
+      console.log(anggota); // Debugging, log the result to ensure it's correct
+
 
       // Return the profile data (excluding sensitive info like password)
       res.status(200).json({
+        id: anggota.id,
         nama: anggota.nama,
         email: anggota.email,
         noTelepon: anggota.noTelepon,

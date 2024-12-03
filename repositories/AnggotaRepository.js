@@ -31,6 +31,7 @@ export class AnggotaRepository {
       const anggota = await prisma.anggota.findUnique({
         where: { id: id },  // Assuming 'id' is the primary key
         select: {
+          id:true,
           nama: true,
           email: true,
           noTelepon: true,
