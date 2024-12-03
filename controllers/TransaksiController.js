@@ -108,4 +108,23 @@ export class TransaksiController {
       return res.status(500).json({ error: 'Failed to fetch transaksi for user' });
     }
   }
+
+    // Handle creating a new transaction by user ID
+  async createTransaksiByUserId(req, res) {
+    const { userId } = req.params;
+    const { totalTransaksi, itemTransaksi } = req.body;
+
+    if (!userId || !totalTransaksi || !itemTransaksi) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    try {
+      const newTransaksi = await this.transaksiService.createTransaksiByUserId(userId, { totalTransaksi, itemTransaksi });
+      res.status(201).json(newTransaksi);
+    } catch (error) {
+      console.error('Error in transaksi controller:', error);
+      res.status(500).json({ message: 'Error creating transaksi for user' });
+    }
+  }
+
 }
