@@ -25,7 +25,15 @@ export class ItemSampahService {
     return await this.repository.update(id, data);
   }
 
+  // async deleteItemSampah(id) {
+  //   return await this.repository.delete(id);
+  // }
+  
   async deleteItemSampah(id) {
+    const item = await this.repository.getById(id);
+    if (!item) {
+      throw new Error('Item Sampah not found');
+    }
     return await this.repository.delete(id);
   }
 }

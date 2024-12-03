@@ -10,6 +10,24 @@ export class AnggotaController {
     this.repository = new AnggotaRepository();
   }
 
+    // Get all anggota data
+    async getAllAnggota(req, res) {
+      try {
+        const anggota = await this.repository.getAll();
+        res.status(200).json({
+          status: 'success',
+          message: 'Data anggota successfully retrieved',
+          data: anggota,
+        });
+      } catch (error) {
+        res.status(500).json({
+          status: 'error',
+          message: 'Failed to fetch anggota data',
+          error: error.message,
+        });
+      }
+    }
+
   // Sign-up anggota baru dengan validasi
   async signUp(req, res) {
     // Validasi data yang masuk

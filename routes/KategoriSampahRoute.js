@@ -9,5 +9,5 @@ kategoriSampahRoute.get('/sampah/kategori', controller.getAll.bind(controller));
 
 // Membuat kategori sampah baru
 kategoriSampahRoute.post('/sampah/kategori', controller.create.bind(controller));
-
+    
 export default kategoriSampahRoute;
