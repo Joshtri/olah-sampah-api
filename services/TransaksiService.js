@@ -65,4 +65,16 @@ export class TransaksiService {
       throw new Error('Service Error: Failed to fetch transaksi for user');
     }
   }
+
+    // Method untuk membuat transaksi oleh user (anggota)
+    async createTransaksiByUserId(userId, data) {
+      try {
+        // Logika tambahan jika diperlukan sebelum menyimpan transaksi
+        const transaksi = await this.transaksiRepository.createTransaksiByUserId(userId, data);
+        return transaksi;
+      } catch (error) {
+        console.error('Error in transaksi service:', error);
+        throw new Error('Error in creating transaksi');
+      }
+    }
 }
