@@ -85,4 +85,27 @@ export class TransaksiRepository {
       throw new Error('Error deleting transaksi');
     }
   }
+
+    // Fetch transaksi by userId (for your case)
+  async getTransaksiByUserId(userId) {
+    try {
+      return await prisma.transaksi.findMany({
+        where: { anggotaId: userId },
+        include: {
+          itemTransaksi: {
+            include: {
+              itemSampah: {
+                include: {
+                  kategoriSampah: true,
+                },
+              },
+            },
+          },
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching transaksi by user ID:', error);
+      throw new Error('Failed to fetch transaksi by user ID');
+    }
+  }
 }
