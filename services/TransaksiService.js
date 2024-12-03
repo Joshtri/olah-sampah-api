@@ -1,45 +1,47 @@
+// TransaksiService.js
 import { TransaksiRepository } from '../repositories/TransaksiRepository.js';
-import { ItemTransaksiRepository } from '../repositories/ItemTransaksiRepository.js';
 
 export class TransaksiService {
   constructor() {
     this.transaksiRepository = new TransaksiRepository();
-    // this.itemTransaksiRepository = new ItemTransaksiRepository();
   }
 
+  // Method untuk membuat transaksi
   async createTransaksi(data) {
-    const { items, totalTransaksi, anggotaId } = data;
+    const { itemTransaksi, totalTransaksi, anggotaId } = data;
 
-    // Pastikan 'items' adalah array dan tidak kosong
-    if (!Array.isArray(items) || items.length === 0) {
+    // Memastikan bahwa itemTransaksi tidak kosong
+    if (!Array.isArray(itemTransaksi) || itemTransaksi.length === 0) {
       throw new Error('Items transaksi tidak boleh kosong');
     }
 
     // Menghitung total transaksi berdasarkan item yang ada
-    const total = items.reduce((sum, item) => {
+    const total = itemTransaksi.reduce((sum, item) => {
       if (!item.totalHarga || !item.kuantitas) {
         throw new Error('Item harus memiliki totalHarga dan kuantitas');
       }
       return sum + item.totalHarga;
     }, 0);
 
-    // Memastikan total transaksi sesuai
+    // Memastikan bahwa total transaksi sesuai dengan yang diberikan
     if (total !== totalTransaksi) {
       throw new Error('Total transaksi tidak sesuai dengan total harga item');
     }
 
-    // Menggunakan repository untuk membuat transaksi
+    // Membuat transaksi baru melalui repository
     return await this.transaksiRepository.createTransaksi({
       anggotaId,
       totalTransaksi: total,
-      itemTransaksi: items, // Menyertakan itemTransaksi yang diterima
+      itemTransaksi: itemTransaksi, // Pastikan itemTransaksi diteruskan dengan benar
     });
   }
 
+  // Method untuk mengambil semua transaksi
   async getAllTransaksi() {
     return await this.transaksiRepository.getAllTransaksi();
   }
 
+  // Method untuk mengambil transaksi berdasarkan ID
   async getTransaksiById(id) {
     return await this.transaksiRepository.getTransaksiById(id);
   }

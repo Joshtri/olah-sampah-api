@@ -3,7 +3,11 @@ const prisma = new PrismaClient();
 
 export class ItemSampahRepository {
   async getAll() {
-    return await prisma.itemSampah.findMany();
+    return await prisma.itemSampah.findMany({
+      include: {
+        kategoriSampah: true, // Menyertakan kategoriSampah yang berelasi
+      },
+    });
   }
 
   async getById(id) {

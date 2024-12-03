@@ -1,3 +1,4 @@
+// TransaksiController.js
 import { TransaksiService } from '../services/TransaksiService.js';
 
 export class TransaksiController {
@@ -5,13 +6,14 @@ export class TransaksiController {
     this.transaksiService = new TransaksiService();
   }
 
+  // Method untuk membuat transaksi baru
   async create(req, res) {
     try {
       const transaksiData = req.body;
-      console.log('Received data:', transaksiData); // Debugging log untuk melihat data yang diterima
+      console.log('Received data:', transaksiData); // Log data untuk debugging
 
-      // Memeriksa apakah items ada dan bukan array kosong
-      if (!transaksiData.items || transaksiData.items.length === 0) {
+      // Memeriksa apakah itemTransaksi ada dan tidak kosong
+      if (!transaksiData.itemTransaksi || transaksiData.itemTransaksi.length === 0) {
         throw new Error('Items transaksi tidak boleh kosong');
       }
 
@@ -30,45 +32,42 @@ export class TransaksiController {
       });
     }
   }
-  
 
-  // Endpoint untuk mendapatkan semua transaksi
+  // Method untuk mengambil semua transaksi
   async getAll(req, res) {
     try {
       const transaksi = await this.transaksiService.getAllTransaksi();
       res.status(200).json({
         status: 'success',
-        message: 'Data transaksi berhasil ditemukan',
         data: transaksi,
       });
     } catch (error) {
+      console.error('Error fetching all transaksi:', error);
       res.status(500).json({
         status: 'error',
-        message: 'Terjadi kesalahan saat mengambil data transaksi',
-        error: error.message,
+        message: error.message,
       });
     }
   }
 
-  // Endpoint untuk mendapatkan transaksi berdasarkan ID
+  // Method untuk mengambil transaksi berdasarkan ID
   async getById(req, res) {
+    const { id } = req.params;
     try {
-      const { id } = req.params;
       const transaksi = await this.transaksiService.getTransaksiById(id);
-
       if (!transaksi) {
-        return res.status(404).json({
+        res.status(404).json({
           status: 'error',
           message: 'Transaksi tidak ditemukan',
         });
+      } else {
+        res.status(200).json({
+          status: 'success',
+          data: transaksi,
+        });
       }
-
-      res.status(200).json({
-        status: 'success',
-        message: 'Data transaksi berhasil ditemukan',
-        data: transaksi,
-      });
     } catch (error) {
+      console.error('Error fetching transaksi by ID:', error);
       res.status(500).json({
         status: 'error',
         message: error.message,

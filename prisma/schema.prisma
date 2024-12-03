@@ -37,11 +37,12 @@ model KategoriSampah {
 }
 
 model ItemSampah {
-  id              String          @id @default(auto()) @map("_id") @db.ObjectId
-  nama            String
-  hargaPerKg      Float           // Harga per kg
-  kategoriSampah  KategoriSampah? @relation(fields: [kategoriSampahId], references: [id])
-  kategoriSampahId String?        @db.ObjectId // ID relasi ke KategoriSampah
+  id               String          @id @default(auto()) @map("_id") @db.ObjectId
+  nama             String
+  hargaPerKg       Float           // Harga per kg
+  kategoriSampah   KategoriSampah? @relation(fields: [kategoriSampahId], references: [id])
+  kategoriSampahId String?         @db.ObjectId // ID relasi ke KategoriSampah
+  itemTransaksi    ItemTransaksi[] // Relasi balik ke ItemTransaksi
 }
 
 // model Transaksi {
@@ -53,13 +54,32 @@ model ItemSampah {
 //   anggota          Anggota?   @relation(fields: [anggotaId], references: [id]) // Relasi balik ke Anggota
 // }
 
-model Transaksi {
-  id              String          @id @default(auto()) @map("_id") @db.ObjectId
-  anggota         Anggota?        @relation(fields: [anggotaId], references: [id])
-  anggotaId       String?         @db.ObjectId  // ID relasi ke Anggota (ObjectId)
-  totalTransaksi  Float           // Pastikan ini adalah total transaksi
-  tanggalTransaksi DateTime       @default(now())
-  itemTransaksi   Json 
+enum StatusTransaksi {
+  pending  // Default status, transaksi belum diproses
+  success  // Transaksi berhasil
+  failed   // Transaksi gagal
+  cancelled // Transaksi dibatalkan
 }
+
+model ItemTransaksi {
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  transaksiId    String     @db.ObjectId  // ID relasi ke Transaksi
+  itemSampahId   String     @db.ObjectId  // ID relasi ke ItemSampah
+  kuantitas      Float
+  totalHarga     Float
+  itemSampah     ItemSampah @relation(fields: [itemSampahId], references: [id])
+  transaksi      Transaksi @relation(fields: [transaksiId], references: [id])
+}
+
+model Transaksi {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  anggotaId        String         @db.ObjectId  // ID Anggota
+  tanggalTransaksi DateTime      @default(now()) 
+  totalTransaksi   Float
+  itemTransaksi    ItemTransaksi[]  // Relasi ke ItemTransaksi
+  statusTransaksi  StatusTransaksi @default(pending)  // Status transaksi
+  anggota          Anggota?       @relation(fields: [anggotaId], references: [id])
+}
+
 
 
