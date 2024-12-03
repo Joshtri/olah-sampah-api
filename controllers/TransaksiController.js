@@ -93,4 +93,19 @@ export class TransaksiController {
       });
     }
   }
+
+    // Get transaksi by userId
+  async getTransaksiByUserId(req, res) {
+    const { userId } = req.params;
+    try {
+      const transaksi = await this.transaksiService.getTransaksiByUserId(userId);
+      if (!transaksi || transaksi.length === 0) {
+        return res.status(404).json({ error: 'No transaksi found for this user' });
+      }
+      return res.status(200).json(transaksi);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Failed to fetch transaksi for user' });
+    }
+  }
 }
