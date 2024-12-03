@@ -17,4 +17,7 @@ transaksiRoute.post('/transaksi', controller.create.bind(controller));
 // Define the route for deleting a transaction
 transaksiRoute.delete('/transaksi/:id', controller.deleteTransaksi.bind(controller));
 
+// Get transaksi by userId
+transaksiRoute.get('/transaksi/user/:userId', controller.getTransaksiByUserId.bind(controller));
+
 export default transaksiRoute;
