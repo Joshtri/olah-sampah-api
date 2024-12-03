@@ -59,7 +59,7 @@ export class TransaksiService {
    // Get transaksi by userId (for a specific user)
    async getTransaksiByUserId(userId) {
     try {
-      return await this.transaksiRepo.getTransaksiByUserId(userId);
+      return await this.transaksiRepository.getTransaksiByUserId(userId);
     } catch (error) {
       console.error('getTransaksiByUserId Service error:', error);
       throw new Error('Service Error: Failed to fetch transaksi for user');
