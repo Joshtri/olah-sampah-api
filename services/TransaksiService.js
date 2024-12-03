@@ -4,24 +4,35 @@ import { ItemTransaksiRepository } from '../repositories/ItemTransaksiRepository
 export class TransaksiService {
   constructor() {
     this.transaksiRepository = new TransaksiRepository();
-    this.itemTransaksiRepository = new ItemTransaksiRepository();
+    // this.itemTransaksiRepository = new ItemTransaksiRepository();
   }
 
   async createTransaksi(data) {
-    const { itemTransaksi, totalTransaksi, anggotaId } = data;
-    
-    // Menghitung total transaksi
-    const total = itemTransaksi.reduce((sum, item) => sum + item.totalHarga, 0);
+    const { items, totalTransaksi, anggotaId } = data;
+
+    // Pastikan 'items' adalah array dan tidak kosong
+    if (!Array.isArray(items) || items.length === 0) {
+      throw new Error('Items transaksi tidak boleh kosong');
+    }
+
+    // Menghitung total transaksi berdasarkan item yang ada
+    const total = items.reduce((sum, item) => {
+      if (!item.totalHarga || !item.kuantitas) {
+        throw new Error('Item harus memiliki totalHarga dan kuantitas');
+      }
+      return sum + item.totalHarga;
+    }, 0);
 
     // Memastikan total transaksi sesuai
     if (total !== totalTransaksi) {
       throw new Error('Total transaksi tidak sesuai dengan total harga item');
     }
 
+    // Menggunakan repository untuk membuat transaksi
     return await this.transaksiRepository.createTransaksi({
       anggotaId,
       totalTransaksi: total,
-      itemTransaksi,
+      itemTransaksi: items, // Menyertakan itemTransaksi yang diterima
     });
   }
 

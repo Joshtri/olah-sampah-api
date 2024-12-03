@@ -5,12 +5,12 @@ const transaksiRoute = express.Router();
 const controller = new TransaksiController();
 
 // Mendapatkan semua transaksi
-transaksiRoute.get('/', controller.getAll.bind(controller));
+transaksiRoute.get('/transaksi', controller.getAll.bind(controller));
 
 // Mendapatkan transaksi berdasarkan ID
-transaksiRoute.get('/:id', controller.getById.bind(controller));
+transaksiRoute.get('/transaksi/:id', controller.getById.bind(controller));
 
 // Membuat transaksi baru
-transaksiRoute.post('/', controller.create.bind(controller));
+transaksiRoute.post('/transaksi', controller.create.bind(controller));
 
 export default transaksiRoute;

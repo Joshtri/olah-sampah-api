@@ -1,3 +1,4 @@
+// Validation for Item Sampah
 export class ItemSampahValidation {
   static validateCreate(data) {
     if (!data.nama || data.nama.trim().length === 0) {

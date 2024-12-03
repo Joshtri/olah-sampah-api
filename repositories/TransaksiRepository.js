@@ -2,24 +2,30 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export class TransaksiRepository {
+// transaksiRepository.js
   async createTransaksi(data) {
-    return await prisma.transaksi.create({
-      data: {
-        anggotaId: data.anggotaId,
-        totalTransaksi: data.totalTransaksi,
-        itemTransaksi: {
-          create: data.itemTransaksi, // Menyertakan itemTransaksi terkait
+    try {
+      const newTransaksi = await prisma.transaksi.create({
+        data: {
+          anggotaId: data.anggotaId,
+          totalTransaksi: data.totalTransaksi,
+          itemTransaksi: {
+            create: data.itemTransaksi, // Menyertakan itemTransaksi terkait
+          },
         },
-      },
-    });
+      });
+      return newTransaksi;
+    } catch (error) {
+      console.error('Error creating transaksi:', error);
+      throw new Error('Error creating transaksi');
+    }
   }
 
+
+
+
   async getAllTransaksi() {
-    return await prisma.transaksi.findMany({
-      include: {
-        itemTransaksi: true, // Menyertakan detail itemTransaksi
-      },
-    });
+    return await prisma.transaksi.findMany();
   }
 
   async getTransaksiById(id) {

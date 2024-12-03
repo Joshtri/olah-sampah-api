@@ -5,24 +5,32 @@ export class TransaksiController {
     this.transaksiService = new TransaksiService();
   }
 
-  // Endpoint untuk membuat transaksi baru
   async create(req, res) {
     try {
       const transaksiData = req.body;
-      const newTransaksi = await this.transaksiService.createTransaksi(transaksiData);
+      console.log('Received data:', transaksiData); // Debugging log untuk melihat data yang diterima
 
+      // Memeriksa apakah items ada dan bukan array kosong
+      if (!transaksiData.items || transaksiData.items.length === 0) {
+        throw new Error('Items transaksi tidak boleh kosong');
+      }
+
+      // Menggunakan service untuk membuat transaksi
+      const newTransaksi = await this.transaksiService.createTransaksi(transaksiData);
       res.status(201).json({
         status: 'success',
         message: 'Transaksi berhasil dibuat',
         data: newTransaksi,
       });
     } catch (error) {
+      console.error('Error creating transaksi:', error); // Log error lebih lanjut
       res.status(500).json({
         status: 'error',
         message: error.message,
       });
     }
   }
+  
 
   // Endpoint untuk mendapatkan semua transaksi
   async getAll(req, res) {

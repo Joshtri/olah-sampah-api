@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -26,8 +20,8 @@ model Pengguna {
 model Anggota {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
   nama        String
-  email       String     @unique // Email untuk akun anggota
-  kataSandi   String     // Kata sandi untuk login
+  email       String     @unique
+  kataSandi   String
   noTelepon   String
   alamat      String
   transaksi   Transaksi[] // Relasi ke Transaksi
@@ -48,23 +42,24 @@ model ItemSampah {
   hargaPerKg      Float           // Harga per kg
   kategoriSampah  KategoriSampah? @relation(fields: [kategoriSampahId], references: [id])
   kategoriSampahId String?        @db.ObjectId // ID relasi ke KategoriSampah
-  itemTransaksi   ItemTransaksi[] // Relasi ke ItemTransaksi
 }
+
+// model Transaksi {
+//   id               String     @id @default(auto()) @map("_id") @db.ObjectId
+//   anggotaId        String     @db.ObjectId  // ID Anggota
+//   tanggalTransaksi DateTime  @default(now()) 
+//   itemTransaksi    Json       // Array of items { "itemId": string, "nama": string, "kuantitas": float, "hargaPerKg": float, "totalHarga": float }
+//   totalHarga       Float      // Total Harga dari seluruh transaksi
+//   anggota          Anggota?   @relation(fields: [anggotaId], references: [id]) // Relasi balik ke Anggota
+// }
 
 model Transaksi {
   id              String          @id @default(auto()) @map("_id") @db.ObjectId
   anggota         Anggota?        @relation(fields: [anggotaId], references: [id])
   anggotaId       String?         @db.ObjectId  // ID relasi ke Anggota (ObjectId)
+  totalTransaksi  Float           // Pastikan ini adalah total transaksi
   tanggalTransaksi DateTime       @default(now())
-  itemTransaksi   ItemTransaksi[] // Relasi ke ItemTransaksi
+  itemTransaksi   Json 
 }
 
-model ItemTransaksi {
-  id              String          @id @default(auto()) @map("_id") @db.ObjectId
-  transaksi       Transaksi?      @relation(fields: [transaksiId], references: [id])
-  transaksiId     String?         @db.ObjectId // ID relasi ke Transaksi
-  itemSampah      ItemSampah?     @relation(fields: [itemSampahId], references: [id])
-  itemSampahId    String?         @db.ObjectId // ID relasi ke ItemSampah
-  kuantitas       Float           // Jumlah dalam kg
-  totalHarga      Float           // Harga total
-}
+
