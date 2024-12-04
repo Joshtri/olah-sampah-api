@@ -2,6 +2,7 @@ import express from 'express';
 import { config } from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
+import prisma from './config/prisma.js';
 
 // Import routes
 import penggunaRoute from './routes/PenggunaRoute.js';
@@ -19,6 +20,7 @@ console.log('PORT:', process.env.PORT);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+prisma;
 // Middleware
 app.use(express.json()); // Untuk parsing JSON
 app.use(express.urlencoded({ extended: true })); // Untuk parsing data URL-encoded

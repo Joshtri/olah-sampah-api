@@ -3,7 +3,9 @@
   "module": "index.ts",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "postinstall": "prisma generate"
+
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
