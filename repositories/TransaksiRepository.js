@@ -74,22 +74,20 @@ export class TransaksiRepository {
   }
 
     // Method untuk membuat transaksi oleh user (anggota)
-  async createTransaksiByUserId(userId, data) {
+  async createTransaksiByUserId({ anggotaId, totalTransaksi, itemTransaksi }) {
     try {
-      // Membuat transaksi untuk user dengan anggotaId yang sudah ada
-      const newTransaksi = await prisma.transaksi.create({
+      return await prisma.transaksi.create({
         data: {
-          anggotaId: userId,  // Menyertakan ID user yang login
-          totalTransaksi: data.totalTransaksi,
+          anggotaId: anggotaId, // Pastikan anggotaId digunakan di sini
+          totalTransaksi,
           itemTransaksi: {
-            create: data.itemTransaksi, // Menyertakan itemTransaksi yang diterima
-          },
-        },
+            create: itemTransaksi
+          }
+        }
       });
-      return newTransaksi;
     } catch (error) {
-      console.error('Error creating transaksi by user ID:', error);
-      throw new Error('Error creating transaksi');
+      console.error('Error creating transaksi in repository:', error);
+      throw new Error('Database error: Unable to create transaksi');
     }
   }
 
