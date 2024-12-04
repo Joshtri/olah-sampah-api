@@ -109,22 +109,35 @@ export class TransaksiController {
     }
   }
 
-    // Handle creating a new transaction by user ID
+  // Handle creating a new transaction by user ID
   async createTransaksiByUserId(req, res) {
-    const { userId } = req.params;
-    const { totalTransaksi, itemTransaksi } = req.body;
-
-    if (!userId || !totalTransaksi || !itemTransaksi) {
-      return res.status(400).json({ message: 'Missing required fields' });
-    }
+    const userId = req.params.userId;
+    const data = req.body;
 
     try {
-      const newTransaksi = await this.transaksiService.createTransaksiByUserId(userId, { totalTransaksi, itemTransaksi });
-      res.status(201).json(newTransaksi);
+      // Log data untuk memastikan payload benar
+      console.log('Received data from user:', data);
+
+      console.log('Received data from frontend:', req.body);
+
+
+      // Panggil service untuk membuat transaksi
+      const newTransaksi = await this.transaksiService.createTransaksiByUserId(userId, data);
+
+      res.status(201).json({
+        status: 'success',
+        message: 'Transaksi berhasil dibuat',
+        data: newTransaksi
+      });
     } catch (error) {
-      console.error('Error in transaksi controller:', error);
-      res.status(500).json({ message: 'Error creating transaksi for user' });
+      console.error('Error creating transaksi:', error);
+      res.status(500).json({
+        status: 'error',
+        message: error.message
+      });
     }
   }
+
+    
 
 }
