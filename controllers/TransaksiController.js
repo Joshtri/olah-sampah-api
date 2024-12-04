@@ -138,6 +138,34 @@ export class TransaksiController {
     }
   }
 
+    // Controller untuk memperbarui status transaksi
+  async updateStatus(req, res) {
+    const { id } = req.params; // ID transaksi dari URL
+    const { newStatus } = req.body; // Status baru dari body
+
+    try {
+      if (!['pending', 'success', 'failed', 'cancelled'].includes(newStatus)) {
+        return res.status(400).json({ error: 'Invalid status' });
+      }
+
+      const updatedTransaksi = await this.transaksiService.updateStatusTransaksi(id, newStatus);
+      if (!updatedTransaksi) {
+        return res.status(404).json({ error: 'Transaksi not found' });
+      }
+
+      return res.status(200).json({
+        message: 'Status updated successfully',
+        data: updatedTransaksi,
+      });
+    } catch (error) {
+      console.error('Error updating status:', error);
+      return res.status(500).json({ error: 'Failed to update transaksi status' });
+    }
+  }
+
+
+
+
     
 
 }
