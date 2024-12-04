@@ -126,4 +126,19 @@ export class TransaksiRepository {
       throw new Error('Failed to fetch transaksi by user ID');
     }
   }
+  
+  // Method untuk memperbarui status transaksi berdasarkan ID
+  async updateStatusTransaksiById(id, newStatus) {
+    try {
+      return await prisma.transaksi.update({
+        where: { id },
+        data: { statusTransaksi: newStatus },
+      });
+    } catch (error) {
+      console.error('Error updating status transaksi:', error);
+      throw new Error('Database error: Unable to update status');
+    }
+  }
+  
+  
 }
