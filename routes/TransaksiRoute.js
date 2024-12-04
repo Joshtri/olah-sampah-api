@@ -25,4 +25,8 @@ transaksiRoute.post('/transaksi/:userId/create', controller.createTransaksiByUse
 // Get transaksi by userId
 transaksiRoute.get('/transaksi/user/:userId', controller.getTransaksiByUserId.bind(controller));
 
+
+transaksiRoute.put('/transaksi/:id/status', controller.updateStatus.bind(controller));
+
+
 export default transaksiRoute;
