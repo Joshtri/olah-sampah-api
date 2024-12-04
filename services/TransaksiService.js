@@ -99,6 +99,13 @@ export class TransaksiService {
       itemTransaksi
     });
   }
+
+    // Service untuk memperbarui status transaksi
+    async updateStatusTransaksi(id, newStatus) {
+      return await this.transaksiRepository.updateStatusTransaksiById(id, newStatus);
+    }
+    
+    
   
   
 }
