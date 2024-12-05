@@ -7,4 +7,10 @@ export class PengepulRepository{
     async getAll(){
         return await prisma.pengepul.findMany();
     }
+    
+    async create(data) {
+        return await prisma.pengepul.create({
+            data: data,
+        });
+    }   
 }
