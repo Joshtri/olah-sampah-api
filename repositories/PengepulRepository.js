@@ -12,5 +12,11 @@ export class PengepulRepository{
         return await prisma.pengepul.create({
             data: data,
         });
-    }   
+    }
+    
+    async getPengepulById(id) {
+        return await prisma.pengepul.findUnique({
+          where: { id },
+        });
+    }
 }
