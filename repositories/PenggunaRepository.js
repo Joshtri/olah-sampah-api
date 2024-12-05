@@ -38,15 +38,17 @@ export class PenggunaRepository {
 
   // Mendapatkan pengguna berdasarkan ID
   async getById(id) {
-    try {
-      return await prisma.pengguna.findUnique({
-        where: { id }
-      });
-    } catch (error) {
-      console.error('Error fetching pengguna by ID:', error);
-      throw new Error('Unable to fetch pengguna by ID');
-    }
-  }
+    return await prisma.pengguna.findUnique({
+        where: { id },
+        select: {
+            id: true,
+            nama: true,
+            email: true,
+            peran: true,
+            // Exclude password
+        },
+    });
+}
 
   // Update pengguna berdasarkan ID
   async update(id, penggunaData) {
