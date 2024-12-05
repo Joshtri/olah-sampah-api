@@ -32,4 +32,26 @@ export class PengepulRepository{
           where: { id },
         });
     }
+
+    async getByEmail(email) {
+        return await prisma.pengepul.findUnique({
+            where: { email },
+        });
+    }
+
+    async getById(id) {
+        return await prisma.pengepul.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                nama: true,
+                email: true,
+                noTelepon: true,
+                alamat: true,
+                namaBankSampah: true,
+                // Exclude password
+            },
+        });
+    }
+    
 }
