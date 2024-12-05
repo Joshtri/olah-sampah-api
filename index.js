@@ -10,6 +10,7 @@ import anggotaRoute from './routes/AnggotaRoute.js';
 import transaksiRoute from './routes/TransaksiRoute.js';
 import kategoriSampahRoute from './routes/KategoriSampahRoute.js';
 import itemSampahRoute from './routes/ItemSampahRoute.js';
+import pengepulRoute from './routes/PengepulRoute.js';
 
 // Konfigurasi environment variables
 config();
@@ -43,6 +44,7 @@ app.use('/api/v1', anggotaRoute);
 app.use('/api/v1', transaksiRoute);
 app.use('/api/v1', kategoriSampahRoute);
 app.use('/api/v1', itemSampahRoute);
+app.use('/api/v1', pengepulRoute);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
