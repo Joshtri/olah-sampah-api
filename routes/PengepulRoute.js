@@ -13,4 +13,6 @@ pengepulRoute.get('/pengepul', (req, res) => pengepulController.getAllPengepul(r
 pengepulRoute.post('/pengepul', upload.none(),  (req, res) => pengepulController.createPengepul(req, res));
 pengepulRoute.get('/pengepul/:id', (req, res) => pengepulController.getPengepulById(req, res));
 
+pengepulRoute.get('/pengepul-diterima', (req, res) => pengepulController.getPengepulByStatusDiterima(req, res));
+
 export default pengepulRoute;

@@ -1,8 +1,10 @@
+import { PengepulRepository } from "../repositories/PengepulRepository.js";
 import { PengepulService } from "../services/PengepulService.js";
 
 export class PengepulController {
     constructor() {
         this.pengepulService = new PengepulService();
+        this.pengepulRepository = new PengepulRepository()
     }
 
     async getAllPengepul(req, res) {
@@ -13,6 +15,19 @@ export class PengepulController {
             res.status(500).json({ success: false, message: error.message });
         }
     }
+
+    async getPengepulByStatusDiterima(req, res) {
+        try {
+            console.log('Fetching pengepul with status DITERIMA...');
+            const pengepuls = await this.pengepulRepository.getAllByStatusDiterima();
+            console.log('Fetched pengepul:', pengepuls);
+            res.status(200).json({ success: true, data: pengepuls });
+        } catch (error) {
+            console.error('Error fetching pengepul with status DITERIMA:', error.message);
+            res.status(500).json({ success: false, message: error.message });
+        }
+    }
+    
 
     async createPengepul(req, res) {
         try {
