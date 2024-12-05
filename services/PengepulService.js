@@ -25,4 +25,17 @@ export class PengepulService {
             throw new Error('Gagal membuat data pengepul: ' + error.message);
         }
     }
+
+    async getPengepulById(id) {
+        if (!id) {
+          throw new Error('ID pengepul harus disediakan');
+        }
+    
+        const pengepul = await this.pengepulRepository.getPengepulById(id);
+        if (!pengepul) {
+          throw new Error(`Pengepul dengan ID ${id} tidak ditemukan`);
+        }
+    
+        return pengepul;
+    }
 }
