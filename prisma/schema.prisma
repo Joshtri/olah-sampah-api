@@ -7,14 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+enum role {
+  admin
+  pengepul
+}
+
 model Pengguna {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   nama        String
   email       String   @unique
   kataSandi   String
-  peran       String   // Contoh: "admin", "staf"
+  peran       role   // Contoh: "admin", "staf"
   dibuatPada  DateTime @default(now())
   diperbaruiPada DateTime @updatedAt
+  
 }
 
 model Anggota {
@@ -28,6 +35,28 @@ model Anggota {
   dibuatPada  DateTime   @default(now())
   diperbaruiPada DateTime @updatedAt
 }
+
+
+model Pengepul {
+  id              String     @id @default(auto()) @map("_id") @db.ObjectId
+  nama            String
+  email           String     @unique
+  kataSandi       String
+  noTelepon       String
+  alamat          String
+  lokasi          String?     // Lokasi pengepul, misalnya nama kecamatan
+  bankSampahId    String?     // Relasi ke Bank Sampah jika ada
+  deskripsiBankSampah String
+  lokasiUrl       String?
+  provinsi        String
+  kabupaten       String
+  kecamatan       String
+  kelurahan       String
+  dibuatPada      DateTime    @default(now())
+  diperbaruiPada  DateTime    @updatedAt
+}
+
+
 
 model KategoriSampah {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId

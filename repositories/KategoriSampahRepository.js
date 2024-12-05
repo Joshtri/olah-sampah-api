@@ -7,7 +7,7 @@ export class KategoriSampahRepository {
   async getAll() {
     return await prisma.kategoriSampah.findMany();
   }
-
+  
   // Mengambil kategori sampah berdasarkan ID
   async getById(id) {
     return await prisma.kategoriSampah.findUnique({
