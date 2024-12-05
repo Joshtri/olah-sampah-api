@@ -52,10 +52,18 @@ model Pengepul {
   kabupaten       String
   kecamatan       String
   kelurahan       String
+  status          Status     @default(PENDING)  // Status registrasi dari admin
+
   dibuatPada      DateTime    @default(now())
   diperbaruiPada  DateTime    @updatedAt
 }
 
+
+enum Status {
+  PENDING   // Registrasi sedang menunggu persetujuan admin
+  DITERIMA  // Registrasi telah disetujui oleh admin
+  DITOLAK   // Registrasi ditolak oleh admin
+}
 
 
 model KategoriSampah {
