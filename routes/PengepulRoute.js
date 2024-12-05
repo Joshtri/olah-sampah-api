@@ -9,5 +9,6 @@ pengepulRoute.get('/pengepul', (req, res) => pengepulController.getAllPengepul(r
 
 // POST create pengepul
 pengepulRoute.post('/pengepul', (req, res) => pengepulController.createPengepul(req, res));
+pengepulRoute.get('/pengepul/:id', (req, res) => pengepulController.getPengepulById(req, res));
 
 export default pengepulRoute;
