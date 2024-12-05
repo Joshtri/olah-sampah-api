@@ -14,17 +14,19 @@ export class PengepulService {
     }
 
     async createPengepul(data) {
-        // Validasi data di sini jika diperlukan
+        console.log('Data diterima:', data);
+    
         if (!data.nama || !data.email || !data.kataSandi) {
             throw new Error('Nama, email, dan kata sandi wajib diisi.');
         }
-
+    
         try {
             return await this.pengepulRepository.create(data);
         } catch (error) {
             throw new Error('Gagal membuat data pengepul: ' + error.message);
         }
     }
+    
 
     async getPengepulById(id) {
         if (!id) {

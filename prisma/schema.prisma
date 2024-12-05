@@ -45,9 +45,12 @@ model Pengepul {
   noTelepon       String
   alamat          String
   lokasi          String?     // Lokasi pengepul, misalnya nama kecamatan
-  bankSampahId    String?     // Relasi ke Bank Sampah jika ada
+  // bankSampahId    String?     // Relasi ke Bank Sampah jika ada
+  namaBankSampah String?
   deskripsiBankSampah String
   lokasiUrl       String?
+  dokumenPrasyarat String?
+  thumbnailPengapul String?
   provinsi        String
   kabupaten       String
   kecamatan       String

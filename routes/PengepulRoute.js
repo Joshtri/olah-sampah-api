@@ -1,5 +1,7 @@
 import express from 'express';
 import { PengepulController } from '../controllers/PengepulController.js';
+import multer from 'multer'
+const upload = multer();
 
 const pengepulRoute = express.Router();
 const pengepulController = new PengepulController();
@@ -8,7 +10,7 @@ const pengepulController = new PengepulController();
 pengepulRoute.get('/pengepul', (req, res) => pengepulController.getAllPengepul(req, res));
 
 // POST create pengepul
-pengepulRoute.post('/pengepul', (req, res) => pengepulController.createPengepul(req, res));
+pengepulRoute.post('/pengepul', upload.none(),  (req, res) => pengepulController.createPengepul(req, res));
 pengepulRoute.get('/pengepul/:id', (req, res) => pengepulController.getPengepulById(req, res));
 
 export default pengepulRoute;

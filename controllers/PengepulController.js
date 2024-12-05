@@ -16,13 +16,16 @@ export class PengepulController {
 
     async createPengepul(req, res) {
         try {
-            const pengepulData = req.body;
-            const newPengepul = await this.pengepulService.createPengepul(pengepulData);
-            res.status(201).json({ success: true, data: newPengepul });
+          console.log('Request Body:', req.body); // Log untuk memastikan data diterima
+          const pengepulData = req.body;
+          const newPengepul = await this.pengepulService.createPengepul(pengepulData);
+          res.status(201).json({ success: true, data: newPengepul });
         } catch (error) {
-            res.status(400).json({ success: false, message: error.message });
+          console.error('Error in createPengepul:', error.message);
+          res.status(400).json({ success: false, message: error.message });
         }
-    }
+      }
+      
 
     async getPengepulById(req, res) {
         const { id } = req.params;
