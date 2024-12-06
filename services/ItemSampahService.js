@@ -6,7 +6,14 @@ export class ItemSampahService {
     this.repository = new ItemSampahRepository();
   }
 
-  async getAllItemSampah() {
+  // async getAllItemSampah() {
+  //   return await this.repository.getAll();
+  // }
+
+  async getAllItemSampah(pengepulId = null) {
+    if (pengepulId) {
+      return await this.repository.getByPengepulId(pengepulId);
+    }
     return await this.repository.getAll();
   }
 
