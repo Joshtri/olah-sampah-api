@@ -34,4 +34,13 @@ export class ItemSampahRepository {
       where: { id: id },
     });
   }
+
+  async getByPengepulId(pengepulId) {
+    return await prisma.itemSampah.findMany({
+      where: { pengepulId },
+      include: {
+        kategoriSampah: true, // Include related KategoriSampah data
+      },
+    });
+  }
 }
