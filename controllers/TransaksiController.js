@@ -34,19 +34,31 @@ export class TransaksiController {
   }
 
   // Method untuk mengambil semua transaksi
+  // async getAll(req, res) {
+  //   try {
+  //     const transaksi = await this.transaksiService.getAllTransaksi();
+  //     res.status(200).json({
+  //       status: 'success',
+  //       data: transaksi,
+  //     });
+  //   } catch (error) {
+  //     console.error('Error fetching all transaksi:', error);
+  //     res.status(500).json({
+  //       status: 'error',
+  //       message: error.message,
+  //     });
+  //   }
+  // }
+
+  // Mendapatkan semua transaksi
   async getAll(req, res) {
     try {
-      const transaksi = await this.transaksiService.getAllTransaksi();
-      res.status(200).json({
-        status: 'success',
-        data: transaksi,
-      });
+      const pengepulId = req.query.pengepulId || null;
+      const transaksi = await this.transaksiService.getAllTransaksi(pengepulId);
+      res.status(200).json({ status: 'success', data: transaksi });
     } catch (error) {
-      console.error('Error fetching all transaksi:', error);
-      res.status(500).json({
-        status: 'error',
-        message: error.message,
-      });
+      console.error('Error fetching transaksi:', error);
+      res.status(500).json({ status: 'error', message: error.message });
     }
   }
 
