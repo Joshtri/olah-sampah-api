@@ -6,20 +6,31 @@ export class ItemSampahController {
   }
 
   // Mendapatkan semua item sampah
+  // async getAll(req, res) {
+  //   try {
+  //     const data = await this.service.getAllItemSampah();
+  //     res.status(200).json({
+  //       status: "success",
+  //       message: "Data item sampah berhasil ditemukan",
+  //       data: data
+  //     });
+  //   } catch (error) {
+  //     res.status(500).json({
+  //       status: "error",
+  //       message: "Terjadi kesalahan saat mengambil data item sampah",
+  //       error: error.message
+  //     });
+  //   }
+  // }
+
   async getAll(req, res) {
     try {
-      const data = await this.service.getAllItemSampah();
-      res.status(200).json({
-        status: "success",
-        message: "Data item sampah berhasil ditemukan",
-        data: data
-      });
+      const pengepulId = req.query.pengepulId || null; // Get pengepulId from query
+      const items = await this.service.getAllItemSampah(pengepulId);
+      res.status(200).json({ status: 'success', data: items });
     } catch (error) {
-      res.status(500).json({
-        status: "error",
-        message: "Terjadi kesalahan saat mengambil data item sampah",
-        error: error.message
-      });
+      console.error('Error fetching item sampah:', error);
+      res.status(500).json({ status: 'error', message: error.message });
     }
   }
 
