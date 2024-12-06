@@ -125,30 +125,27 @@ export class TransaksiController {
   async createTransaksiByUserId(req, res) {
     const userId = req.params.userId;
     const data = req.body;
-
+  
     try {
-      // Log data untuk memastikan payload benar
-      console.log('Received data from user:', data);
-
-      console.log('Received data from frontend:', req.body);
-
-
-      // Panggil service untuk membuat transaksi
+      console.log('Received userId:', userId);
+      console.log('Received data:', data);
+  
       const newTransaksi = await this.transaksiService.createTransaksiByUserId(userId, data);
-
+  
       res.status(201).json({
         status: 'success',
         message: 'Transaksi berhasil dibuat',
-        data: newTransaksi
+        data: newTransaksi,
       });
     } catch (error) {
       console.error('Error creating transaksi:', error);
       res.status(500).json({
         status: 'error',
-        message: error.message
+        message: error.message,
       });
     }
   }
+  
 
     // Controller untuk memperbarui status transaksi
   async updateStatus(req, res) {
