@@ -103,22 +103,36 @@ export class TransaksiRepository {
   }
 
     // Method untuk membuat transaksi oleh user (anggota)
-  async createTransaksiByUserId({ anggotaId, totalTransaksi, itemTransaksi }) {
+  // Method untuk membuat transaksi oleh user (anggota)
+  async createTransaksiByUserId({ anggotaId, pengepulId, totalTransaksi, itemTransaksi }) {
     try {
+      console.log('Creating transaksi with data:', {
+        anggotaId,
+        pengepulId,
+        totalTransaksi,
+        itemTransaksi,
+      });
+  
       return await prisma.transaksi.create({
         data: {
-          anggotaId: anggotaId, // Pastikan anggotaId digunakan di sini
+          anggotaId,
+          pengepulId,
           totalTransaksi,
           itemTransaksi: {
-            create: itemTransaksi
-          }
-        }
+            create: itemTransaksi, // Relasi itemTransaksi
+          },
+        },
+        include: {
+          itemTransaksi: true, // Pastikan itemTransaksi disertakan di response
+        },
       });
     } catch (error) {
-      console.error('Error creating transaksi in repository:', error);
+      console.error('Database error while creating transaksi:', error.message);
       throw new Error('Database error: Unable to create transaksi');
     }
   }
+  
+  
 
    // Method untuk menghapus transaksi berdasarkan ID
   async deleteTransaksiById(id) {
@@ -139,6 +153,7 @@ export class TransaksiRepository {
       return await prisma.transaksi.findMany({
         where: { anggotaId: userId },
         include: {
+          pengepul:true,
           itemTransaksi: {
             include: {
               itemSampah: {
