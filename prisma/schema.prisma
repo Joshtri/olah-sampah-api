@@ -56,7 +56,8 @@ model Pengepul {
   kecamatan       String
   kelurahan       String
   status          Status     @default(PENDING)  // Status registrasi dari admin
-  itemSampah          ItemSampah[] // Relasi ke ItemSampah, setiap pengepul memiliki item sampah tersendiri
+  itemSampah      ItemSampah[] // Relasi ke ItemSampah, setiap pengepul memiliki item sampah tersendiri
+  transaksi       Transaksi[] // Relasi balik ke Transaksi
 
   dibuatPada      DateTime    @default(now())
   diperbaruiPada  DateTime    @updatedAt
@@ -117,11 +118,15 @@ model ItemTransaksi {
 model Transaksi {
   id               String         @id @default(auto()) @map("_id") @db.ObjectId
   anggotaId        String         @db.ObjectId  // ID Anggota
+  pengepulId       String         @db.ObjectId  // ID Pengepul
+
   tanggalTransaksi DateTime      @default(now()) 
   totalTransaksi   Float
   itemTransaksi    ItemTransaksi[]  // Relasi ke ItemTransaksi
   statusTransaksi  StatusTransaksi @default(pending)  // Status transaksi
   anggota          Anggota?       @relation(fields: [anggotaId], references: [id])
+    pengepul         Pengepul?      @relation(fields: [pengepulId], references: [id]) // Relasi ke Pengepul
+
 }
 
 
