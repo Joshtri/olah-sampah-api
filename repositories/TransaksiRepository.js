@@ -49,6 +49,35 @@ export class TransaksiRepository {
     }
   }
 
+  async getByPengepulId(pengepulId) {
+    return await prisma.transaksi.findMany({
+      where: { pengepulId },
+      include: {
+        anggota: true,
+        pengepul: true,
+        itemTransaksi: {
+          include: {
+            itemSampah: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getAll() {
+    return await prisma.transaksi.findMany({
+      include: {
+        anggota: true,
+        pengepul: true,
+        itemTransaksi: {
+          include: {
+            itemSampah: true,
+          },
+        },
+      },
+    });
+  }
+
   // Method untuk mendapatkan transaksi berdasarkan ID
   async getTransaksiById(id) {
     try {
