@@ -37,8 +37,15 @@ export class TransaksiService {
   }
 
   // Method untuk mengambil semua transaksi
-  async getAllTransaksi() {
-    return await this.transaksiRepository.getAllTransaksi();
+  // async getAllTransaksi() {
+  //   return await this.transaksiRepository.getAllTransaksi();
+  // }
+
+  async getAllTransaksi(pengepulId = null) {
+    if (pengepulId) {
+      return await this.transaksiRepository.getByPengepulId(pengepulId);
+    }
+    return await this.transaksiRepository.getAll();
   }
 
   // Method untuk mengambil transaksi berdasarkan ID
