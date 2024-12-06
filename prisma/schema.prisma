@@ -119,13 +119,12 @@ model Transaksi {
   id               String         @id @default(auto()) @map("_id") @db.ObjectId
   anggotaId        String         @db.ObjectId  // ID Anggota
   pengepulId       String         @db.ObjectId  // ID Pengepul
-
   tanggalTransaksi DateTime      @default(now()) 
   totalTransaksi   Float
   itemTransaksi    ItemTransaksi[]  // Relasi ke ItemTransaksi
   statusTransaksi  StatusTransaksi @default(pending)  // Status transaksi
   anggota          Anggota?       @relation(fields: [anggotaId], references: [id])
-    pengepul         Pengepul?      @relation(fields: [pengepulId], references: [id]) // Relasi ke Pengepul
+  pengepul         Pengepul?      @relation(fields: [pengepulId], references: [id]) // Relasi ke Pengepul
 
 }
 

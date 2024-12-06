@@ -75,19 +75,14 @@ export class TransaksiService {
 
   // Method untuk membuat transaksi oleh user (anggota) dengan userId
   async createTransaksiByUserId(userId, data) {
-    const { itemTransaksi, totalTransaksi } = data;
+    const { pengepulId, itemTransaksi, totalTransaksi } = data;
   
-    // Validasi `anggotaId` (userId dari route parameter)
-    if (!userId) {
-      throw new Error('anggotaId tidak ditemukan');
-    }
-  
-    // Validasi bahwa `itemTransaksi` tidak kosong
+    if (!userId) throw new Error('anggotaId tidak ditemukan');
+    if (!pengepulId) throw new Error('pengepulId tidak boleh kosong');
     if (!Array.isArray(itemTransaksi) || itemTransaksi.length === 0) {
       throw new Error('Items transaksi tidak boleh kosong');
     }
   
-    // Validasi total transaksi
     const total = itemTransaksi.reduce((sum, item) => {
       if (!item.totalHarga || !item.kuantitas) {
         throw new Error('Item harus memiliki totalHarga dan kuantitas');
@@ -99,13 +94,15 @@ export class TransaksiService {
       throw new Error('Total transaksi tidak sesuai dengan total harga item');
     }
   
-    // Lakukan penyimpanan transaksi ke repository
     return await this.transaksiRepository.createTransaksiByUserId({
       anggotaId: userId,
+      pengepulId,
       totalTransaksi: total,
-      itemTransaksi
+      itemTransaksi,
     });
   }
+  
+  
 
     // Service untuk memperbarui status transaksi
     async updateStatusTransaksi(id, newStatus) {
