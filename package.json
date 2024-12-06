@@ -5,7 +5,6 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "postinstall": "prisma generate"
-
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
@@ -13,7 +12,6 @@
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
     "nodemon": "^3.1.7"
-
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -32,6 +30,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.3",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "prisma": "^6.0.0",
     "zod": "^3.23.8"
   }

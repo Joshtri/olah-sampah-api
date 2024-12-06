@@ -13,7 +13,7 @@ enum role {
   pengepul
 }
 
-model Pengguna {
+model Pengguna { //admin
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   nama        String
   email       String   @unique
@@ -24,7 +24,7 @@ model Pengguna {
   
 }
 
-model Anggota {
+model Anggota { //member / masyarakat
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
   nama        String
   email       String     @unique
@@ -37,7 +37,7 @@ model Anggota {
 }
 
 
-model Pengepul {
+model Pengepul { //pengempul
   id              String     @id @default(auto()) @map("_id") @db.ObjectId
   nama            String
   email           String     @unique
