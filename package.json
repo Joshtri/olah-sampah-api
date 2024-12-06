@@ -13,6 +13,7 @@
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
     "nodemon": "^3.1.7"
+
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
