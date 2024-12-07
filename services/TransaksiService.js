@@ -132,10 +132,21 @@ export class TransaksiService {
       return await  this.transaksiRepository.countTransaksiByPengepulId(pengepulId);
     }
   
-    // Menghitung transaksi berdasarkan status dan PengepulId (untuk pengepul)
-    async countTransaksiByStatusAndPengepulId(status, pengepulId) {
-      return await  this.transaksiRepository.countTransaksiByStatusAndPengepulId(status, pengepulId);
+    // // Menghitung transaksi berdasarkan status dan PengepulId (untuk pengepul)
+    // async countTransaksiByStatusAndPengepulId(statusTransaksi, pengepulId) {
+    //   return await  this.transaksiRepository.countTransaksiByStatusAndPengepulId(statusTransaksi, pengepulId);
+    // }
+
+    // Menghitung transaksi berdasarkan filter
+    async countTransaksiByStatusAndPengepulId(filter) {
+      try {
+        return await this.transaksiRepository.countTransaksiByStatusAndPengepulId(filter);
+      } catch (error) {
+        console.error('Error counting transactions by filter:', error);
+        throw new Error('Database error: Unable to count transactions by filter.');
+      }
     }
+
     
     
   
