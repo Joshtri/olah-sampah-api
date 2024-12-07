@@ -195,32 +195,55 @@ export class TransaksiController {
     }
   }
 
-    // Menghitung transaksi berdasarkan userId (untuk pengepul)
+    // Menghitung transaksi berdasarkan pengepulId (untuk pengepul)
     async countTransaksiByPengepulId(req, res) {
       try {
-        const { userId } = req.params;
-        const total = await this.transaksiService.countTransaksiByPengepulId(userId);
+        const { pengepulId } = req.params;
+        const total = await this.transaksiService.countTransaksiByPengepulId(pengepulId);
         res.status(200).json({ total });
       } catch (error) {
-        console.error('Error counting transactions by userId:', error);
-        res.status(500).json({ error: 'Unable to count transactions by userId.' });
+        console.error('Error counting transactions by pengepulId:', error);
+        res.status(500).json({ error: 'Unable to count transactions by pengepulId.' });
       }
     }
   
-    // Menghitung transaksi berdasarkan status dan userId (untuk pengepul)
-    async countTransaksiByStatusAndPengepulId(req, res) {
-      try {
-        const { userId, status } = req.params;
-        const total = await this.transaksiService.countTransaksiByStatusAndPengepulId(
-          status,
-          userId
-        );
-        res.status(200).json({ total });
-      } catch (error) {
-        console.error('Error counting transactions by status and userId:', error);
-        res.status(500).json({ error: 'Unable to count transactions by status and userId.' });
+    // Menghitung transaksi berdasarkan status dan pengepulId (untuk pengepul)
+    // async countTransaksiByStatusAndPengepulId(req, res) {
+    //   try {
+    //     const { pengepulId, statusTransaksi } = req.params;
+    //     const total = await this.transaksiService.countTransaksiByStatusAndPengepulId(
+    //       statusTransaksi,
+    //       pengepulId
+    //     );
+    //     res.status(200).json({ total });
+    //   } catch (error) {
+    //     console.error('Error counting transactions by status and pengepulId:', error);
+    //     res.status(500).json({ error: 'Unable to count transactions by status and pengepulId.' });
+    //   }
+    // }
+
+  // Menghitung transaksi berdasarkan status dan pengepulId (untuk pengepul)
+  async countTransaksiByStatusAndPengepulId(req, res) {
+    try {
+      const { pengepulId, statusTransaksi } = req.params;
+
+      // Jika pengepulId adalah "all", hapus filter pengepulId dari query
+      const filter = {
+        statusTransaksi,
+      };
+
+      if (pengepulId !== 'all') {
+        filter.pengepulId = pengepulId;
       }
+
+      const total = await this.transaksiService.countTransaksiByStatusAndPengepulId(filter);
+      res.status(200).json({ total });
+    } catch (error) {
+      console.error('Error counting transactions by status and pengepulId:', error);
+      res.status(500).json({ error: 'Unable to count transactions by status and pengepulId.' });
     }
+  }
+
 
 
 
