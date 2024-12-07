@@ -104,9 +104,37 @@ export class TransaksiService {
   
   
 
-    // Service untuk memperbarui status transaksi
-    async updateStatusTransaksi(id, newStatus) {
-      return await this.transaksiRepository.updateStatusTransaksiById(id, newStatus);
+  // Service untuk memperbarui status transaksi
+  async updateStatusTransaksi(id, newStatus) {
+    return await this.transaksiRepository.updateStatusTransaksiById(id, newStatus);
+  }
+
+  async countTransaksi() {
+    try {
+      return await this.transaksiRepository.countTransaksi();
+    } catch (error) {
+      console.error('Error in service countTransaksi:', error);
+      throw new Error('Unable to fetch transaction count');
+    }
+  }
+
+  async countTransaksiByStatus(status) {
+    try {
+      return await this.transaksiRepository.countTransaksiByStatus(status);
+    } catch (error) {
+      console.error('Error in service countTransaksiByStatus:', error);
+      throw new Error('Unable to fetch transaction count by status');
+    }
+  }
+
+    // Menghitung transaksi berdasarkan PengepulId (untuk pengepul)
+    async countTransaksiByPengepulId(pengepulId) {
+      return await  this.transaksiRepository.countTransaksiByPengepulId(pengepulId);
+    }
+  
+    // Menghitung transaksi berdasarkan status dan PengepulId (untuk pengepul)
+    async countTransaksiByStatusAndPengepulId(status, pengepulId) {
+      return await  this.transaksiRepository.countTransaksiByStatusAndPengepulId(status, pengepulId);
     }
     
     
