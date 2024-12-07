@@ -252,6 +252,49 @@ export class TransaksiRepository {
     }
   }
 
+  // Mengambil transaksi berdasarkan statusTransaksi dan pengepulId
+  async getTransaksiByStatusAndPengepulId(statusTransaksi, pengepulId, role) {
+    try {
+      const filter = {};
+
+      if (statusTransaksi && statusTransaksi !== 'all') {
+        filter.statusTransaksi = statusTransaksi;
+      }
+
+      if (role === 'pengepul' && pengepulId) {
+        filter.pengepulId = pengepulId;
+      }
+
+      const transaksi = await prisma.transaksi.findMany({
+        where: filter,
+        include: {
+          anggota: true,
+          pengepul: true,
+        },
+      });
+
+      return transaksi;
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+      throw new Error('Database error: Unable to fetch transactions.');
+    }
+  }
+
+  // async countTransaksiByStatus(status) {
+  //   try {
+  //     const total = await prisma.transaksi.count({
+  //       where: {
+  //         statusTransaksi: status,
+  //       },
+  //     });
+  //     return total;
+  //   } catch (error) {
+  //     console.error('Error in countTransaksiByStatus:', error);
+  //     throw new Error('Database error while counting transactions by status');
+  //   }
+  // }
+
+  
   
   
   
