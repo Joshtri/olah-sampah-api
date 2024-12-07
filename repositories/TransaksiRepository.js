@@ -183,6 +183,65 @@ export class TransaksiRepository {
       throw new Error('Database error: Unable to update status');
     }
   }
+
+  async countTransaksi() {
+    try {
+      console.log('Executing countTransaksi...');
+      const total = await prisma.transaksi.count();
+      console.log('Total transaksi:', total);
+      return total;
+    } catch (error) {
+      console.error('Error in countTransaksi repository:', error);
+      throw new Error('Database error: Unable to count transactions');
+    }
+  }
+
+  async countTransaksiByStatus(status) {
+    try {
+      console.log(`Executing countTransaksiByStatus for status: ${status}...`);
+      const totalByStatus = await prisma.transaksi.count({
+        where: {
+          statusTransaksi: status, // Filter transaksi berdasarkan status
+        },
+      });
+      console.log(`Total transaksi dengan status ${status}:`, totalByStatus);
+      return totalByStatus;
+    } catch (error) {
+      console.error('Error in countTransaksiByStatus repository:', error);
+      throw new Error('Database error: Unable to count transactions by status');
+    }
+  }
+
+
+    // Menghitung total transaksi berdasarkan userId
+  async countTransaksiByPengepulId(pengepulId) {
+    try {
+      return await prisma.transaksi.count({
+        where: {
+          pengepulId,
+        },
+      });
+    } catch (error) {
+      console.error('Error counting transactions by pengepulId:', error);
+      throw new Error('Database error: Unable to count transactions by userId.');
+    }
+  }
+
+  // Menghitung transaksi berdasarkan status dan userId
+  async countTransaksiByStatusAndPengepulId(status, pengepulId) {
+    try {
+      return await prisma.transaksi.count({
+        where: {
+          pengepulId,
+          status,
+        },
+      });
+    } catch (error) {
+      console.error('Error counting transactions by status and pengepulId:', error);
+      throw new Error('Database error: Unable to count transactions by status and userId.');
+    }
+  }
+  
   
   
 }
