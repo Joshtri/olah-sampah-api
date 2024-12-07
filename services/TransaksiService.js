@@ -147,6 +147,15 @@ export class TransaksiService {
       }
     }
 
+      // Mendapatkan transaksi berdasarkan statusTransaksi dan pengepulId
+  async getTransaksiByStatusAndPengepulId(statusTransaksi, pengepulId, role) {
+    return await this.transaksiRepository.getTransaksiByStatusAndPengepulId(
+      statusTransaksi,
+      pengepulId,
+      role
+    );
+  }
+
     
     
   
