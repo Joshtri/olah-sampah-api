@@ -46,7 +46,10 @@ transaksiRoute.get(
   '/transaksi-count/user/:pengepulId/status/:statusTransaksi',
   controller.countTransaksiByStatusAndPengepulId.bind(controller)
 );
-
+// Route untuk mendapatkan transaksi berdasarkan statusTransaksi dan pengepulId
+transaksiRoute.get('/transaksi-status', (req, res) =>
+    controller.getTransaksiByStatus(req, res)
+);
 
 
 export default transaksiRoute;
