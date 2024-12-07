@@ -173,6 +173,56 @@ export class TransaksiController {
   }
 
 
+  // Controller method untuk menghitung jumlah transaksi
+  async countTransaksi(req, res) {
+    try {
+      const totalTransaksi = await this.transaksiService.countTransaksi();
+      res.status(200).json({ total: totalTransaksi });
+    } catch (error) {
+      console.error('Error fetching transaction count:', error);
+      res.status(500).json({ error: 'Unable to count transactions' });
+    }
+  }
+
+  async countTransaksiByStatus(req, res) {
+    try {
+      const { status } = req.params; // Ambil status dari parameter URL
+      const totalByStatus = await this.transaksiService.countTransaksiByStatus(status);
+      res.status(200).json({ total: totalByStatus, status });
+    } catch (error) {
+      console.error('Error fetching transaction count by status:', error);
+      res.status(500).json({ error: 'Unable to count transactions by status' });
+    }
+  }
+
+    // Menghitung transaksi berdasarkan userId (untuk pengepul)
+    async countTransaksiByPengepulId(req, res) {
+      try {
+        const { userId } = req.params;
+        const total = await this.transaksiService.countTransaksiByPengepulId(userId);
+        res.status(200).json({ total });
+      } catch (error) {
+        console.error('Error counting transactions by userId:', error);
+        res.status(500).json({ error: 'Unable to count transactions by userId.' });
+      }
+    }
+  
+    // Menghitung transaksi berdasarkan status dan userId (untuk pengepul)
+    async countTransaksiByStatusAndPengepulId(req, res) {
+      try {
+        const { userId, status } = req.params;
+        const total = await this.transaksiService.countTransaksiByStatusAndPengepulId(
+          status,
+          userId
+        );
+        res.status(200).json({ total });
+      } catch (error) {
+        console.error('Error counting transactions by status and userId:', error);
+        res.status(500).json({ error: 'Unable to count transactions by status and userId.' });
+      }
+    }
+
+
 
 
     
