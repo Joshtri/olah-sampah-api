@@ -244,6 +244,25 @@ export class TransaksiController {
     }
   }
 
+    // Mengambil transaksi berdasarkan statusTransaksi dan pengepulId
+  async getTransaksiByStatus(req, res) {
+    try {
+      const { statusTransaksi } = req.query;
+      const { pengepulId, role } = req.query;
+
+      const transaksi = await this.transaksiService.getTransaksiByStatusAndPengepulId(
+        statusTransaksi,
+        pengepulId,
+        role
+      );
+
+      res.status(200).json({ data: transaksi });
+    } catch (error) {
+      console.error('Error fetching transactions by status:', error);
+      res.status(500).json({ error: 'Unable to fetch transactions.' });
+    }
+  }
+
 
 
 
