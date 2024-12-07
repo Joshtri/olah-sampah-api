@@ -41,9 +41,9 @@ transaksiRoute.get('/transaksi-count/:status', (req, res) =>
 // Route untuk menghitung transaksi berdasarkan userId (pengepul)
 transaksiRoute.get('/transaksi-count/user/:pengepulId', controller.countTransaksiByPengepulId.bind(controller));
 
-// Route untuk menghitung transaksi berdasarkan status dan userId (pengepul)
+// Route untuk menghitung transaksi berdasarkan status dan pengepulId (pengepul)
 transaksiRoute.get(
-  '/transaksi-count/user/:pengepulId/status/:status',
+  '/transaksi-count/user/:pengepulId/status/:statusTransaksi',
   controller.countTransaksiByStatusAndPengepulId.bind(controller)
 );
 
