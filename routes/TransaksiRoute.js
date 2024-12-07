@@ -29,4 +29,24 @@ transaksiRoute.get('/transaksi/user/:userId', controller.getTransaksiByUserId.bi
 transaksiRoute.put('/transaksi/:id/status', controller.updateStatus.bind(controller));
 
 
+// Route untuk menghitung transaksi
+transaksiRoute.get('/transaksi-count', controller.countTransaksi.bind(controller));
+
+transaksiRoute.get('/transaksi-count/:status', (req, res) =>
+    controller.countTransaksiByStatus(req, res)
+);
+
+
+
+// Route untuk menghitung transaksi berdasarkan userId (pengepul)
+transaksiRoute.get('/transaksi-count/user/:pengepulId', controller.countTransaksiByPengepulId.bind(controller));
+
+// Route untuk menghitung transaksi berdasarkan status dan userId (pengepul)
+transaksiRoute.get(
+  '/transaksi-count/user/:pengepulId/status/:status',
+  controller.countTransaksiByStatusAndPengepulId.bind(controller)
+);
+
+
+
 export default transaksiRoute;
