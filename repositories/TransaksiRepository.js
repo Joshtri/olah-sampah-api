@@ -227,20 +227,31 @@ export class TransaksiRepository {
     }
   }
 
-  // Menghitung transaksi berdasarkan status dan userId
-  async countTransaksiByStatusAndPengepulId(status, pengepulId) {
+  // // Menghitung transaksi berdasarkan status dan userId
+  // async countTransaksiByStatusAndPengepulId(statusTransaksi, pengepulId) {
+  //   try {
+  //     return await prisma.transaksi.count({
+  //       where: {
+  //         pengepulId,
+  //         statusTransaksi,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     console.error('Error counting transactions by statusTransaksi and pengepulId:', error);
+  //     throw new Error('Database error: Unable to count transactions by statusTransaksi and userId.');
+  //   }
+  // }
+
+  // Menghitung transaksi berdasarkan filter
+  async countTransaksiByStatusAndPengepulId(filter) {
     try {
-      return await prisma.transaksi.count({
-        where: {
-          pengepulId,
-          status,
-        },
-      });
+      return await prisma.transaksi.count({ where: filter });
     } catch (error) {
-      console.error('Error counting transactions by status and pengepulId:', error);
-      throw new Error('Database error: Unable to count transactions by status and userId.');
+      console.error('Error counting transactions by filter:', error);
+      throw new Error('Database error: Unable to count transactions by filter.');
     }
   }
+
   
   
   
