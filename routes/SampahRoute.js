@@ -7,6 +7,6 @@ const sampahRoute = Router();
 sampahRoute.get('/sampah/total', SampahController.ambilTotalSampah);
 
 // Endpoint untuk mendapatkan total sampah per pengepul
-sampahRoute.get('/sampah/pengepul/:pengepulId', SampahController.ambilSampahPerPengepul);
+sampahRoute.get('/sampah/total/pengepul/:pengepulId', SampahController.ambilSampahPerPengepul);
 
 export default sampahRoute;
